@@ -1,0 +1,13 @@
+[package]
+name = "minimal_server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.34", features = ["full"] }
+hyper = { version = "0.14", features = ["full"] }
+tokio-tungstenite = "0.18"
+dashmap = { version = "7.0.0-rc2" }
+lazy_static = "1.4"
+wasmtime = "14.0"
+anyhow = "1.0"

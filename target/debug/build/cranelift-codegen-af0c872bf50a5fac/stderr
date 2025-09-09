@@ -1,0 +1,17 @@
+Writing generated file: /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/settings.rs
+Writing generated file: /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/types.rs
+Writing generated file: /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/opcodes.rs
+Writing generated file: /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/clif_opt.isle
+Writing generated file: /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/clif_lower.isle
+Writing generated file: /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/inst_builder.rs
+Writing generated file: /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/settings-arm64.rs
+Rebuilding /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/isle_opt.rs
+Writing ISLE-generated Rust code to /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/isle_opt.rs
+Rebuilding /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/isle_x64.rs
+Writing ISLE-generated Rust code to /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/isle_x64.rs
+Rebuilding /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/isle_aarch64.rs
+Writing ISLE-generated Rust code to /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/isle_aarch64.rs
+Rebuilding /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/isle_s390x.rs
+Writing ISLE-generated Rust code to /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/isle_s390x.rs
+Rebuilding /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/isle_riscv64.rs
+Writing ISLE-generated Rust code to /Users/giorgiomartucci/rust_web/target/debug/build/cranelift-codegen-af0c872bf50a5fac/out/isle_riscv64.rs
