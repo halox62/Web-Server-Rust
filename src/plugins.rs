@@ -2,6 +2,8 @@ use wasmtime::{Engine, Module, Store, Instance};
 use std::path::Path;
 use std::error::Error;
 
+//cargo build --target wasm32-unknown-unknown --release
+
 const PLUGIN_DIR: &str = "./plugins";
 
 #[derive(Clone)]
