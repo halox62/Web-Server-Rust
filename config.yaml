@@ -1,0 +1,11 @@
+server:
+  http_port: 8080
+  ws_port: 9001
+
+routes:
+  - path: "/"
+    upstream: "http://127.0.0.1:5000"  
+    cache: true
+  - path: "/api"
+    upstream: "http://127.0.0.1:5000" 
+    cache: false

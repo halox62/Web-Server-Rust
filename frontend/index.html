@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>SuperNginx Demo</title>
+</head>
+<body>
+    <h1>Benvenuto al frontend!</h1>
+    <button id="loadData">Carica dati dal backend</button>
+    <pre id="output"></pre>
+
+    <script>
+        const button = document.getElementById('loadData');
+        const output = document.getElementById('output');
+
+        button.addEventListener('click', async () => {
+            const response = await fetch('/api/data');
+            const data = await response.json();
+            output.textContent = JSON.stringify(data, null, 2);
+        });
+    </script>
+</body>
+</html>

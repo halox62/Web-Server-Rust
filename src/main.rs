@@ -1,29 +1,39 @@
+mod config;
 mod server;
 mod websocket;
 mod router;
-mod cache;
 mod plugins;
+mod cache; 
+
+use anyhow::Result;
+use config::Config;
+use std::sync::Arc;
 
 #[tokio::main]
-async fn main() -> anyhow::Result<()> {
-    // Inizializza cache
-    cache::init().await;
+async fn main() -> Result<()> {
+    let config = Config::load_from_file("config.yaml").await?;
+    println!("Config caricata: {:?}", config);
 
-    // Carica plugin WASM
-    //plugins::load_plugins("./plugins").await?;
+    println!("Avvio su HTTP:{} e WS:{}", config.server.http_port, config.server.ws_port);
 
-    // Avvia server HTTP
-    tokio::spawn(async {
-        server::run().await.unwrap();
+    let routes = Arc::new(config.routes.clone());
+
+    let http_handle = tokio::spawn({
+        let routes = routes.clone();
+        async move {
+            if let Err(e) = server::run(config.server.http_port, routes).await {
+                eprintln!("Errore HTTP server: {:?}", e);
+            }
+        }
     });
 
-    // Avvia server WebSocket
-    tokio::spawn(async {
-        websocket::run().await.unwrap();
+    let ws_handle = tokio::spawn(async move {
+        if let Err(e) = websocket::run(config.server.ws_port).await {
+            eprintln!("Errore WS server: {:?}", e);
+        }
     });
 
-    println!("Server HTTP/1.1 e WebSocket avviato...");
-    tokio::signal::ctrl_c().await?;
-    println!("Server chiuso.");
+    tokio::join!(http_handle, ws_handle);
+
     Ok(())
 }

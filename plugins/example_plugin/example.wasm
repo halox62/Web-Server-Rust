@@ -1,0 +1,9 @@
+#[no_mangle]
+pub extern "C" fn on_connect() {
+    // codice da eseguire quando si connette un client HTTP
+}
+
+#[no_mangle]
+pub extern "C" fn on_ws_connect() {
+    // codice da eseguire quando si connette un WebSocket
+}

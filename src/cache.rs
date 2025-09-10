@@ -2,17 +2,16 @@ use dashmap::DashMap;
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref CACHE: DashMap<String, String> = DashMap::new();
+    // Cache globale: key = URL, value = Body
+    pub static ref CACHE: DashMap<String, Vec<u8>> = DashMap::new();
 }
 
-pub async fn init() {
-    println!("Cache inizializzata");
+/// Recupera una risposta dalla cache
+pub fn get(key: &str) -> Option<Vec<u8>> {
+    CACHE.get(key).map(|v| v.clone())
 }
 
-pub fn get(key: &str) -> Option<String> {
-    CACHE.get(key).map(|v| v.value().clone())
-}
-
-pub fn set(key: String, value: String) {
+/// Salva una risposta nella cache
+pub fn set(key: String, value: Vec<u8>) {
     CACHE.insert(key, value);
 }
