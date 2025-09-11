@@ -1,0 +1,10 @@
+/Users/giorgiomartucci/rust_web/target/debug/deps/wasmtime_wit_bindgen-1737c02e329db260.d: /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/lib.rs /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/rust.rs /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/source.rs /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/types.rs
+
+/Users/giorgiomartucci/rust_web/target/debug/deps/libwasmtime_wit_bindgen-1737c02e329db260.rlib: /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/lib.rs /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/rust.rs /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/source.rs /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/types.rs
+
+/Users/giorgiomartucci/rust_web/target/debug/deps/libwasmtime_wit_bindgen-1737c02e329db260.rmeta: /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/lib.rs /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/rust.rs /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/source.rs /Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/types.rs
+
+/Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/lib.rs:
+/Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/rust.rs:
+/Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/source.rs:
+/Users/giorgiomartucci/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasmtime-wit-bindgen-19.0.2/src/types.rs:

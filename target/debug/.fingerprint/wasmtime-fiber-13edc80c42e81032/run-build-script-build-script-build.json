@@ -1,0 +1,1 @@
+{"rustc":17575471286409424799,"features":"","declared_features":"","target":0,"profile":0,"path":0,"deps":[[5288925804521476526,"build_script_build",false,424778338765820094]],"local":[{"RerunIfChanged":{"output":"debug/build/wasmtime-fiber-13edc80c42e81032/output","paths":["build.rs"]}}],"rustflags":[],"config":0,"compile_kind":0}

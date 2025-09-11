@@ -1,7 +1,7 @@
 use hyper::{Body, Client, Request, Response, Uri};
 use crate::config::RouteConfig;
-use crate::cache;
 use std::sync::Arc;
+use crate::cache;
 
 pub async fn handle_request(
     mut req: Request<Body>,

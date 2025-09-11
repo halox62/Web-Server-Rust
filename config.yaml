@@ -1,6 +1,9 @@
 server:
   http_port: 8080
   ws_port: 9001
+  quic_port: 4433
+  cert_path: "/Users/giorgiomartucci/rust_web/cert.pem"
+  key_path: "/Users/giorgiomartucci/rust_web/key.pem"
 
 routes:
   - path: "/"
@@ -9,3 +12,4 @@ routes:
   - path: "/api"
     upstream: "http://127.0.0.1:5000" 
     cache: false
+

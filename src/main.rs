@@ -1,39 +1,33 @@
 mod config;
-mod server;
-mod websocket;
 mod router;
 mod plugins;
-mod cache; 
-
-use anyhow::Result;
-use config::Config;
+mod server;
+mod websocket;
+mod cache;
 use std::sync::Arc;
+use wasmtime::Engine;
+use anyhow::Result;
+
 
 #[tokio::main]
-async fn main() -> Result<()> {
-    let config = Config::load_from_file("config.yaml").await?;
-    println!("Config caricata: {:?}", config);
+async fn main() -> anyhow::Result<()> {
+    let config = config::Config::load_from_file("config.yaml").await?;
+    let config = Arc::new(config); // <-- wrap in Arc
 
-    println!("Avvio su HTTP:{} e WS:{}", config.server.http_port, config.server.ws_port);
+    println!("Config: {:?}", config);
 
     let routes = Arc::new(config.routes.clone());
+    cache::init();
 
-    let http_handle = tokio::spawn({
-        let routes = routes.clone();
-        async move {
-            if let Err(e) = server::run(config.server.http_port, routes).await {
-                eprintln!("Errore HTTP server: {:?}", e);
-            }
-        }
-    });
+    // HTTP
+    let http_handle = tokio::spawn(server::run_http(config.server.http_port, routes.clone()));
+    // WebSocket
+    let ws_handle = tokio::spawn(websocket::run(config.server.ws_port));
+    // QUIC/HTTP3
+    let quic_handle = tokio::spawn(server::run_quic(config.server.quic_port, config.clone())); // <-- pass Arc
 
-    let ws_handle = tokio::spawn(async move {
-        if let Err(e) = websocket::run(config.server.ws_port).await {
-            eprintln!("Errore WS server: {:?}", e);
-        }
-    });
-
-    tokio::join!(http_handle, ws_handle);
+    // Attendi tutte le task
+    let _ = tokio::try_join!(http_handle, ws_handle, quic_handle)?;
 
     Ok(())
 }

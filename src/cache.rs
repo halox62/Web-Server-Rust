@@ -15,3 +15,7 @@ pub fn get(key: &str) -> Option<Vec<u8>> {
 pub fn set(key: String, value: Vec<u8>) {
     CACHE.insert(key, value);
 }
+
+pub fn init() {
+    // eventualmente carica dati da file o pulisce la cache
+}
