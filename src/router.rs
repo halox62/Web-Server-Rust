@@ -2,14 +2,22 @@ use hyper::{Body, Client, Request, Response, Uri};
 use crate::config::RouteConfig;
 use std::sync::Arc;
 use crate::cache;
+use crate::plugins::Plugin;
 
 pub async fn handle_request(
     mut req: Request<Body>,
     routes: Arc<Vec<RouteConfig>>,
+    plugins: Arc<tokio::sync::Mutex<std::collections::HashMap<String, Plugin>>>,
 ) -> Result<Response<Body>, hyper::Error> {
 
     let path = req.uri().path().to_string();
     if let Some(route) = routes.iter().find(|r| path.starts_with(&r.path)) {
+        let map = plugins.lock().await;
+        for plugin_name in &route.plugins {
+            if let Some(plugin) = map.get(plugin_name) {
+                plugin.run(&req).await;
+            }
+        }
 
         println!("Richiesta {} → proxy a {} (cache: {})", route.path, route.upstream, route.cache);
 

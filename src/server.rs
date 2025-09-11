@@ -9,19 +9,27 @@ use rustls_pemfile::{certs, pkcs8_private_keys};
 use std::fs::File;
 use std::io::BufReader;
 use crate::config::Config;
+use tokio::sync::Mutex;
+use std::collections::HashMap;
+use crate::plugins::Plugin;
 
 pub async fn run_http(
     port: u16,
     routes: Arc<Vec<RouteConfig>>,
+    plugins: Arc<Mutex<HashMap<String, Plugin>>>,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    let make_svc = make_service_fn(move |_| {
-        let routes = routes.clone();
-        async move {
-            Ok::<_, hyper::Error>(service_fn(move |req| {
-                handle_request(req, routes.clone())
-            }))
-        }
-    });
+    let make_svc = {
+        let plugins = plugins.clone();
+        make_service_fn(move |_| {
+            let routes = routes.clone();
+            let plugins = plugins.clone();
+            async move {
+                Ok::<_, hyper::Error>(service_fn(move |req| {
+                    handle_request(req, routes.clone(), plugins.clone())
+                }))
+            }
+        })
+    };
 
     let addr = ([0, 0, 0, 0], port).into();
     println!("HTTP server listening on http://{}", addr);
@@ -29,7 +37,7 @@ pub async fn run_http(
     Ok(())
 }
 
-pub async fn run_quic(port: u16, config: Arc<Config>) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+pub async fn run_quic(port: u16, config: Arc<Config>,plugins: Arc<Mutex<HashMap<String, Plugin>>>,) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
   
     let mut key_file = BufReader::new(File::open(&config.server.key_path)?);
     let mut cert_file = BufReader::new(File::open(&config.server.cert_path)?);

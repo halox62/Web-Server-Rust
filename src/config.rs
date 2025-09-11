@@ -21,6 +21,8 @@ pub struct RouteConfig {
     pub path: String,
     pub upstream: String,
     pub cache: bool,
+    #[serde(default)]
+    pub plugins:Vec<String>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
