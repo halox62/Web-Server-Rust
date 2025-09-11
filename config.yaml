@@ -2,14 +2,20 @@ server:
   http_port: 8080
   ws_port: 9001
   quic_port: 4433
-  cert_path: "/Users/giorgiomartucci/rust_web/cert.pem"
-  key_path: "/Users/giorgiomartucci/rust_web/key.pem"
+  cert_path: "./cert.pem"
+  key_path: "./key.pem"
 
 routes:
   - path: "/"
-    upstream: "http://127.0.0.1:5000"  
+    upstream: "http://127.0.0.1:5000"
     cache: true
-  - path: "/api"
-    upstream: "http://127.0.0.1:5000" 
-    cache: false
+    plugins:
+      - name: "hello"
+        triggers:
+          - event: "pre_request"
+            protocol: "http1"
 
+  - path: "/api"
+    upstream: "http://127.0.0.1:5001"
+    cache: false
+    plugins: []

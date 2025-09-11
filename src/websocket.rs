@@ -17,7 +17,7 @@ pub async fn run(
     while let Ok((stream, addr)) = listener.accept().await {
         // Esegui i plugin globali all’avvio connessione
         for plugin in plugin_map.lock().await.values() {
-            plugins::run_on_connect(plugin);
+            plugins::run_on_connect(&plugin.name);
         }
 
         let plugin_map = plugin_map.clone();
@@ -31,7 +31,7 @@ pub async fn run(
             };
 
             for plugin in plugin_map.lock().await.values() {
-                plugins::run_on_ws_connect(plugin);
+                plugins::run_on_ws_connect(&plugin.name);
             }
 
             let (mut write, mut read) = ws_stream.split();
