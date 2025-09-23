@@ -7,7 +7,7 @@ use std::{collections::HashMap, sync::Arc};
 pub async fn handle_request(
     mut req: Request<Body>,
     routes: Arc<Vec<RouteConfig>>,
-    plugins: PluginMap, // PluginMap = Arc<Mutex<HashMap<String, Plugin>>>
+    plugins: PluginMap, 
 ) -> Result<Response<Body>, hyper::Error> {
     let path = req.uri().path().to_string();
 

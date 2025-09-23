@@ -1,9 +1,13 @@
 server:
+  enable_http: true
+  enable_ws: false
+  enable_quic: false
   http_port: 8080
   ws_port: 9001
   quic_port: 4433
   cert_path: "./cert.pem"
   key_path: "./key.pem"
+
 
 routes:
   - path: "/"
@@ -11,9 +15,7 @@ routes:
     cache: true
     plugins:
       - name: "hello"
-        triggers:
-          - event: "pre_request"
-            protocol: "http1"
+        options: {}
 
   - path: "/api"
     upstream: "http://127.0.0.1:5001"

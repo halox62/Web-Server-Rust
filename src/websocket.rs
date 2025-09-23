@@ -9,7 +9,7 @@ use tokio::sync::Mutex;
 pub async fn run(
     port: u16,
     plugin_map: PluginMap, 
-) -> Result<(), Box<dyn Error + Send + Sync>> {
+) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let addr = format!("0.0.0.0:{}", port);
     let listener = TcpListener::bind(&addr).await?;
     println!("WebSocket listening on ws://{}", addr);

@@ -10,6 +10,9 @@ pub struct Config {
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct ServerConfig {
+    pub enable_http: bool,
+    pub enable_ws: bool,
+    pub enable_quic: bool,
     pub http_port: u16,
     pub ws_port: u16,
     pub quic_port: u16,
