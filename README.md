@@ -4,8 +4,8 @@
 # wasmsign2
 cargo install wasmsign2-cli
 
-# Firmare il plugin:
-generare la chiave privata:
+
+# generare la chiave privata:
 wasmsign2 keygen --secret-key secret.key
 
 # firmare il plugin:
@@ -22,7 +22,6 @@ rustup target add wasm32-unknown-unknown
 cargo build --release --target wasm32-unknown-unknown
 
 cp target/wasm32-unknown-unknown/release/hello_plugin.wasm ../rust_web/plugins/
-
 
 
 # gen chiave publica
