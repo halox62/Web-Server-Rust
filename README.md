@@ -1,5 +1,7 @@
 # Web-Server-Rust
 
+![Scheme](./images/schema.png)
+
 # create plugin
 cargo new hello_plugin --lib
 cd hello_plugin
