@@ -1,6 +1,6 @@
 # Web-Server-Rust
 
-![schema](./rust_web/images/schema.png)
+![schema](./images/schema.png)
 
 # create plugin
 cargo new hello_plugin --lib

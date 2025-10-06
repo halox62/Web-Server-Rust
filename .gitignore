@@ -6,5 +6,4 @@ target/
 *.key
 
 home/
-Images/
 node_modules/
