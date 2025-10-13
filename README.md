@@ -3,7 +3,7 @@
 
 <table align="center">
   <tr>
-    <td><img src="./images/logoWebServer.png" alt="logo" width="200"/></td>
+    <td><img src="./images/logoWebServer.png" alt="logo" width="250"/></td>
     <td>
       <b>WEB SERVER extensible with secure, signed WebAssembly plugins.</b><br>
       WaspEdge is a web server written in Rust that allows you to add custom logic via WebAssembly (WASM) plugins, safely, isolated, and dynamically.<br>
