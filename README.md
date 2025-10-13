@@ -1,5 +1,8 @@
 # Web-Server-Rust
 
+
+![logo](./images/logoWebServer.png)
+
 ![schema](./images/schema.png)
 
 # create plugin

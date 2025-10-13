@@ -13,9 +13,7 @@ pub async fn run(
     let addr = format!("0.0.0.0:{}", port);
     let listener = TcpListener::bind(&addr).await?;
     println!("WebSocket listening on ws://{}", addr);
-
     while let Ok((stream, addr)) = listener.accept().await {
-        // Esegui i plugin globali all’avvio connessione
         for plugin in plugin_map.lock().await.values() {
             plugins::run_on_connect(&plugin.name);
         }
