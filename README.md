@@ -1,9 +1,16 @@
 # Web-Server-Rust
 
 
-<p align="center">
-  <img src="./images/logoWebServer.png" alt="logo" width="200"/>
-</p>
+<table align="center">
+  <tr>
+    <td><img src="./images/logoWebServer.png" alt="logo" width="120"/></td>
+    <td>
+      <b>WEB SERVER extensible with secure, signed WebAssembly plugins.</b><br>
+      WaspEdge is a web server written in Rust that allows you to add custom logic via WebAssembly (WASM) plugins, safely, isolated, and dynamically.<br>
+      You can write extensions in Rust, C, Go, or AssemblyScript and upload them without restarting the server.
+    </td>
+  </tr>
+</table>
 
 ![schema](./images/schema.png)
 
