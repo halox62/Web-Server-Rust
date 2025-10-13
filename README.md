@@ -1,7 +1,9 @@
 # Web-Server-Rust
 
 
-<img src="./images/logoWebServer.png" alt="logo" width="200"/>
+<p align="center">
+  <img src="./images/logoWebServer.png" alt="logo" width="200"/>
+</p>
 
 ![schema](./images/schema.png)
 
