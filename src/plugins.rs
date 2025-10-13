@@ -77,7 +77,7 @@ pub fn load_plugins(engine: &Engine, config: &Config) -> anyhow::Result<HashMap<
 
             if let Some(p_str) = p.to_str() {
                 if verify_plugin(p_str, "/Users/giorgiomartucci/rust_web/public.key") {
-                    if p.extension().and_then(|e| e.to_str()) == Some("wasm") {
+                    if p.extension().and_then(|e| e.to_str()) == Some("wasm") { 
                         let name = p.file_stem().unwrap().to_string_lossy().to_string();
         
                         if required.contains(&name) {
