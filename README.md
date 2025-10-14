@@ -39,8 +39,7 @@ routes:
       - name: "name plugins"
         options: {options}
 
-
-```yaml
+```
 
 
 # Start server
