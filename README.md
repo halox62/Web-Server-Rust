@@ -43,7 +43,10 @@ routes:
 
 
 # Start server
+```rust
 cargo run
+
+```
 
 # create plugin
 cargo new hello_plugin --lib
