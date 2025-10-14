@@ -19,7 +19,7 @@
 
 # Configurazione
 config.yaml:
-
+```yaml
 server:
   enable_http: false/true
   enable_ws: false/true
@@ -38,6 +38,8 @@ routes:
     plugins:
       - name: "name plugins"
         options: {options}
+
+
 
 
 
