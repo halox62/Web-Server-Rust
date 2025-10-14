@@ -50,7 +50,7 @@ cargo run
 
 # Create plugin
 ```rust
-cargo new hello_plugin --lib
+cargo new plugin --lib
 cd hello_plugin
 ```
 
@@ -74,8 +74,8 @@ wasmsign2 keygen --public-key public.key --secret-key secret.key
 # Signature plugin with private key
 ```rust
 wasmsign2 sign \
-  --input-file hello_plugin.wasm \
-  --output-file hello_plugin-signed.wasm \
+  --input-file plugin.wasm \
+  --output-file plugin-signed.wasm \
   --secret-key secret.key
 ```
 
