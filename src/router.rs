@@ -38,12 +38,12 @@ pub async fn handle_request(
         );
 
         // cache semplice
-        if route.cache {
+        /*if route.cache {
             if let Some(cached_body) = cache::get(&path) {
                 println!("→ Risposta servita dalla cache");
                 return Ok(Response::new(Body::from(cached_body)));
             }
-        }
+        }*/
 
         // prepara l’URI del backend
         let backend_uri: Uri = format!(

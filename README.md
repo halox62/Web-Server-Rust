@@ -12,9 +12,37 @@
   </tr>
 </table>
 
- # Architecture
+# Architecture
 
 ![schema](./images/schema.png)
+
+
+# Configurazione
+config.yaml:
+
+server:
+  enable_http: false/true
+  enable_ws: false/true
+  enable_quic: false/true
+  http_port: port http
+  ws_port: port webSocket
+  quic_port: port quic
+  cert_path: "certification"
+  key_path: "key"
+
+
+routes:
+  - path: "/"
+    upstream: "url"
+    cache: false/true
+    plugins:
+      - name: "name plugins"
+        options: {options}
+
+
+
+# Start server
+cargo run
 
 # create plugin
 cargo new hello_plugin --lib
@@ -27,13 +55,16 @@ cargo build --release --target wasm32-unknown-unknown
 
 cp target/wasm32-unknown-unknown/release/hello_plugin.wasm ../rust_web/plugins/
 
-# wasmsign2
+# Installa lo strumento di firma
 cargo install wasmsign2-cli
 
-# gen chiave
+# Genera una nuova coppia di chiavi (pubblica e privata)
 wasmsign2 keygen --public-key public.key --secret-key secret.key
 
-# firmare il plugin:
-wasmsign2 sign --input-file plugin.wasm --output-file plugin-signed.wasm --secret-key secret.key
+# Firma il file .wasm generato con la chiave privata
+wasmsign2 sign \
+  --input-file hello_plugin.wasm \
+  --output-file hello_plugin-signed.wasm \
+  --secret-key secret.key
 
 

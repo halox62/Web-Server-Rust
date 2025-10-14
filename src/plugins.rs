@@ -12,6 +12,8 @@ use std::path::Path;
 use futures::executor;
 pub type PluginMap = Arc<Mutex<HashMap<String, Plugin>>>;
 use std::process::Command;
+use std::fs;
+use anyhow::{Result, anyhow};
 
 #[derive(Clone)]
 pub struct Plugin {
@@ -52,9 +54,40 @@ impl Plugin {
             path,
             headers.len()
         );
-        // Qui puoi aggiungere la logica reale (chiamata WASM ecc.)
+        // logica reale
         Ok(())
     }
+}
+
+fn verify(plugin_path: &str, public_key_path: &str) -> bool {
+    let output = Command::new("wasmsign2")
+        .arg("verify")
+        .arg("--input-file")
+        .arg(plugin_path)
+        .arg("--public-key")
+        .arg(public_key_path)
+        .output()
+        .expect("Failed to execute command");
+
+    output.status.success()
+}
+
+
+
+
+pub fn verify_with_trusted_keys(plugin_path: &str, trusted_keys_path: &str) -> Result<()> {
+    let data = fs::read_to_string(trusted_keys_path)?;
+    let list: serde_json::Value = serde_json::from_str(&data)?;
+    let keys = list["trusted_keys"].as_array().ok_or(anyhow!("Invalid trusted_keys file"))?;
+
+    for key_entry in keys {
+        let key_path = key_entry.as_str().ok_or(anyhow!("Invalid key path"))?;
+        if verify(plugin_path, key_path) {
+            return Ok(()); //Firma valida 
+        }
+    }
+
+    Err(anyhow!("❌ Plugin signature invalid or not trusted"))
 }
 
 pub fn load_plugins(engine: &Engine, config: &Config) -> anyhow::Result<HashMap<String, Plugin>>  {
@@ -76,7 +109,8 @@ pub fn load_plugins(engine: &Engine, config: &Config) -> anyhow::Result<HashMap<
             let p = entry.path();
 
             if let Some(p_str) = p.to_str() {
-                if verify_plugin(p_str, "/Users/giorgiomartucci/rust_web/public.key") {
+                if verify_with_trusted_keys(p.to_str().unwrap(), "./keys/trusted_keys.json").is_ok() {
+                    println!("Plugin verified and trusted: {:?}", p);
                     if p.extension().and_then(|e| e.to_str()) == Some("wasm") { 
                         let name = p.file_stem().unwrap().to_string_lossy().to_string();
         
@@ -91,7 +125,10 @@ pub fn load_plugins(engine: &Engine, config: &Config) -> anyhow::Result<HashMap<
                             println!("Plugin caricato: {}", name);
                         }
                     }
+                } else {
+                    eprintln!("Rejected untrusted plugin: {:?}", p);
                 }
+                
             } else {
                 eprintln!("Percorso plugin non UTF-8 valido: {:?}", p);
             }
@@ -99,20 +136,6 @@ pub fn load_plugins(engine: &Engine, config: &Config) -> anyhow::Result<HashMap<
 
     Ok(map)
 }
-
-fn verify_plugin(plugin_path: &str, public_key_path: &str) -> bool {
-    let output = Command::new("wasmsign2")
-        .arg("verify")
-        .arg("--input-file")
-        .arg(plugin_path)
-        .arg("--public-key")
-        .arg(public_key_path)
-        .output()
-        .expect("Failed to execute command");
-
-    output.status.success()
-}
-
 
 /// Avvia il watcher sul file config.yaml
 pub async fn watch_config_file(
