@@ -49,26 +49,34 @@ cargo run
 ```
 
 # create plugin
+```rust
 cargo new hello_plugin --lib
 cd hello_plugin
+```
 
 # compila
+```rust
 rustup target add wasm32-unknown-unknown
-
 cargo build --release --target wasm32-unknown-unknown
-
 cp target/wasm32-unknown-unknown/release/hello_plugin.wasm ../rust_web/plugins/
+```
 
 # Installa lo strumento di firma
+```rust
 cargo install wasmsign2-cli
+```
 
 # Genera una nuova coppia di chiavi (pubblica e privata)
+```rust
 wasmsign2 keygen --public-key public.key --secret-key secret.key
+```
 
 # Firma il file .wasm generato con la chiave privata
+```rust
 wasmsign2 sign \
   --input-file hello_plugin.wasm \
   --output-file hello_plugin-signed.wasm \
   --secret-key secret.key
+```
 
 
