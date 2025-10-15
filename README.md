@@ -27,9 +27,6 @@ rust_web/
 ├── plugins/                   
 │   ├── plugin.wasm 
 ├── config.yaml                
-├── images/
-│   ├── logoWebServer.png
-│   └── schema.png
 └── README.md         
 
 ```
