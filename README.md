@@ -76,7 +76,7 @@ cargo new plugin --lib
 cd plugin
 ```
 
-# Compile plugin
+## Compile plugin
 ```rust
 rustup target add wasm32-unknown-unknown
 cargo build --release --target wasm32-unknown-unknown
@@ -93,7 +93,7 @@ cargo install wasmsign2-cli
 wasmsign2 keygen --public-key public.key --secret-key secret.key
 ```
 
-# Signature plugin with private key
+## Signature plugin with private key
 ```rust
 wasmsign2 sign \
   --input-file plugin.wasm \
