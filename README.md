@@ -14,7 +14,7 @@
 
 # Architecture
 
-![schema](./images/schema.png)
+![schema](./images/schema1.png)
 
 
 # Project Structure
