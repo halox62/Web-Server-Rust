@@ -17,6 +17,8 @@
 ![schema](./images/schema.png)
 
 
+## Project Structure
+```
 rust_web/
 ├── Cargo.toml        
 ├── keys/                   
@@ -28,7 +30,9 @@ rust_web/
 ├── images/
 │   ├── logoWebServer.png
 │   └── schema.png
-└── README.md                 
+└── README.md         
+
+```
 
 
 # Configurazione
