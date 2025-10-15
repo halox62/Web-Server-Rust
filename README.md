@@ -17,7 +17,7 @@
 ![schema](./images/schema.png)
 
 
-## Project Structure
+# Project Structure
 ```
 rust_web/
 ├── Cargo.toml        
