@@ -17,13 +17,27 @@
 ![schema](./images/schema.png)
 
 
+rust_web/
+├── Cargo.toml        
+├── keys/                   
+│   ├── trusted_keys.json
+|   ├── public.key
+├── plugins/                   
+│   ├── plugin.wasm 
+├── config.yaml                
+├── images/
+│   ├── logoWebServer.png
+│   └── schema.png
+└── README.md                 
+
+
 # Configurazione
 config.yaml:
 ```yaml
 server:
-  enable_http: false/true
-  enable_ws: false/true
-  enable_quic: false/true
+  enable_http: false
+  enable_ws: false
+  enable_quic: false
   http_port: port http
   ws_port: port webSocket
   quic_port: port quic
@@ -45,16 +59,23 @@ routes:
 # Start server
 ```rust
 cargo run
-
 ```
+
+
+# Install plugin
+1. download plugin with public key
+2. move the plugin in to plugins folder
+3. move the public key in to keys folder
+4. insert the path key in to file json trusted_key.json
+
 
 # Create plugin
 ```rust
 cargo new plugin --lib
-cd hello_plugin
+cd plugin
 ```
 
-# Compile
+# Compile plugin
 ```rust
 rustup target add wasm32-unknown-unknown
 cargo build --release --target wasm32-unknown-unknown
