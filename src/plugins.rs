@@ -23,25 +23,37 @@ pub struct Plugin {
 }
 
 impl Plugin {
+
+
     pub async fn run(&self, req: &Request<Body>) -> anyhow::Result<()> {
         let engine = Engine::default();
-        let wasi = WasiCtxBuilder::new().inherit_stdio().build();
-        let mut store = Store::new(&engine, wasi);
-
-        let mut linker = Linker::new(&engine);
-        wasmtime_wasi::add_to_linker(&mut linker, |cx: &mut wasmtime_wasi::WasiCtx| cx)?;
+    
         let wasi = WasiCtxBuilder::new()
             .inherit_stdout()
             .inherit_stderr()
+            .inherit_stdio() 
             .build();
+    
+        let mut store = Store::new(&engine, wasi);
+    
+
+        let mut linker = Linker::new(&engine);
+        wasmtime_wasi::add_to_linker(&mut linker, |cx: &mut wasmtime_wasi::WasiCtx| cx)?;
+    
         let instance = linker.instantiate(&mut store, &self.module)?;
-        if let func = instance.get_typed_func::<(), ()>(&mut store, "run")? {
-            func.call(&mut store, ())?;
-        } else {
-            println!("Plugin {} non espone `run()`", self.name);
+    
+        match instance.get_typed_func::<(), ()>(&mut store, "run") {
+            Ok(func) => {
+                func.call(&mut store, ())?;
+            }
+            Err(_) => {
+                println!("Plugin {} non espone `run()`", self.name);
+            }
         }
+    
         Ok(())
     }
+
 
     pub async fn run_with_data(
         &self,
@@ -76,21 +88,29 @@ fn verify(plugin_path: &str, public_key_path: &str) -> bool {
 
 
 pub fn verify_with_trusted_keys(plugin_path: &str, trusted_keys_path: &str) -> Result<()> {
+
     let data = fs::read_to_string(trusted_keys_path)?;
     let list: serde_json::Value = serde_json::from_str(&data)?;
-    let keys = list["trusted_keys"].as_array().ok_or(anyhow!("Invalid trusted_keys file"))?;
+    let keys = list["trusted_keys"]
+        .as_array()
+        .ok_or(anyhow!("Invalid trusted_keys file"))?;
 
-    for key_entry in keys {
+
+    for (i, key_entry) in keys.iter().enumerate() {
         let key_path = key_entry.as_str().ok_or(anyhow!("Invalid key path"))?;
+        println!("  [{}] Trying key: {}", i, key_path);
+
         if verify(plugin_path, key_path) {
-            return Ok(()); //Firma valida 
+            return Ok(());
+        } else {
+            println!("Verification failed");
         }
     }
 
-    Err(anyhow!("❌ Plugin signature invalid or not trusted"))
+    Err(anyhow!("Plugin signature invalid or not trusted"))
 }
 
-pub fn load_plugins(engine: &Engine, config: &Config) -> anyhow::Result<HashMap<String, Plugin>>  {
+pub fn load_plugins(engine: &Engine, config: &Config) -> anyhow::Result<HashMap<String, Plugin>> {
     let mut map = HashMap::new();
     let dir = PathBuf::from("./plugins");
 
@@ -98,41 +118,39 @@ pub fn load_plugins(engine: &Engine, config: &Config) -> anyhow::Result<HashMap<
         std::fs::create_dir_all(&dir)?;
     }
 
-    let required: std::collections::HashSet<String> = config
+    let required_plugins: Vec<String> = config
         .routes
         .iter()
         .flat_map(|r| r.plugins.iter().map(|p| p.name.clone()))
         .collect();
 
-        for entry in std::fs::read_dir(&dir)? {
-            let entry = entry?;
-            let p = entry.path();
+    println!("🔍 Plugin richiesti nel config: {:?}", required_plugins);
 
-            if let Some(p_str) = p.to_str() {
-                if verify_with_trusted_keys(p.to_str().unwrap(), "./keys/trusted_keys.json").is_ok() {
-                    println!("Plugin verified and trusted: {:?}", p);
-                    if p.extension().and_then(|e| e.to_str()) == Some("wasm") { 
-                        let name = p.file_stem().unwrap().to_string_lossy().to_string();
-        
-                        if required.contains(&name) {
-                            let module = Module::from_file(engine, &p)?;
-                            let plugin = Plugin {
-                                name: name.clone(),
-                                module,
-                                path: p.clone(),
-                            };
-                            map.insert(name.clone(), plugin);
-                            println!("Plugin caricato: {}", name);
-                        }
-                    }
-                } else {
-                    eprintln!("Rejected untrusted plugin: {:?}", p);
-                }
-                
-            } else {
-                eprintln!("Percorso plugin non UTF-8 valido: {:?}", p);
-            }
+    for plugin_name in required_plugins {
+        let plugin_path = dir.join(format!("{}.wasm", plugin_name));
+
+        if !plugin_path.exists() {
+            eprintln!("Plugin dichiarato nel config ma non trovato: {:?}", plugin_path);
+            continue;
         }
+
+        println!("🔍 Verifying plugin: {:?}", plugin_path);
+        if verify_with_trusted_keys(plugin_path.to_str().unwrap(), "./keys/trusted_keys.json").is_ok() {
+            println!("Plugin verified and trusted: {:?}", plugin_path);
+
+            let module = Module::from_file(engine, &plugin_path)?;
+            let plugin = Plugin {
+                name: plugin_name.clone(),
+                module,
+                path: plugin_path.clone(),
+            };
+
+            map.insert(plugin_name.clone(), plugin);
+            println!("Plugin caricato: {}", plugin_name);
+        } else {
+            eprintln!("Plugin non firmato: {:?}", plugin_path);
+        }
+    }
 
     Ok(map)
 }
