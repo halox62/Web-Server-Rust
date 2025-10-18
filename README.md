@@ -15,7 +15,7 @@
 
 # System
 
-<img src="./images/system.png" alt="logo" width="800"/></td>
+<img src="./images/system.jpg" alt="logo" width="800"/></td>
 
 
 # Architecture
