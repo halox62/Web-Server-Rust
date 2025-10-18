@@ -15,7 +15,7 @@
 
 # System
 
-![system](./images/system.png)
+<img src="./images/system.png" alt="logo" width="500"/></td>
 
 
 # Architecture
