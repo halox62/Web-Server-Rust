@@ -80,37 +80,6 @@ cargo new plugin --lib
 cargo install wasmsign2-cli
 ```
 
-
-### Cargo.toml
-
-Your `Cargo.toml` file should look like this:
-
-```toml
-[package]
-name = "my_plugin"
-version = "0.1.0"
-edition = "2024"
-
-[lib]
-crate-type = ["cdylib"]
-```
-
-Your src/lib.rs file should define a run function with #[no_mangle]:
-```rust
-// src/lib.rs
-#[no_mangle]
-pub extern "C" fn run() { 
-    println!("Hello from plugin!");
-}
-```
-
-## Compile plugin
-```rust
-rustup target add wasm32-unknown-unknown
-cargo build --release --target wasm32-unknown-unknown
-cp target/wasm32-unknown-unknown/release/plugin.wasm ../plugins/
-```
-
 # Generate key
 ```rust
 wasmsign2 keygen --public-key public.key --secret-key secret.key

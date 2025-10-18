@@ -52,12 +52,10 @@ pub async fn run_quic(port: u16, config: Arc<Config>,plugins: Arc<Mutex<HashMap<
     let mut keys = pkcs8_private_keys(&mut key_file)?;
     let private_key = PrivateKeyDer::Pkcs8(keys.remove(0).into());
 
-    // Configura server QUIC
     let server_config = ServerConfig::with_single_cert(cert_chain, private_key)?;
     let endpoint = Endpoint::server(server_config, format!("0.0.0.0:{}", port).parse()?)?;
     println!("HTTP/3 server listening on QUIC port {}", port);
 
-    // Mantieni il server in esecuzione
     while let Some(conn) = endpoint.accept().await {
         tokio::spawn(async move {
             let _ = conn.await;
