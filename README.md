@@ -71,21 +71,44 @@ cargo run
 
 
 # Create plugin
+
+# Install signature tool
+```rust
+cargo install wasmsign2-cli
+```
+
 ```rust
 cargo new plugin --lib
-cd plugin
+```
+
+### Cargo.toml
+
+Your `Cargo.toml` file should look like this:
+
+```toml
+[package]
+name = "my_plugin"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+```
+
+Your src/lib.rs file should define a run function with #[no_mangle]:
+```rust
+// src/lib.rs
+#[no_mangle]
+pub extern "C" fn run() { 
+    println!("Hello from plugin!");
+}
 ```
 
 ## Compile plugin
 ```rust
 rustup target add wasm32-unknown-unknown
 cargo build --release --target wasm32-unknown-unknown
-cp target/wasm32-unknown-unknown/release/hello_plugin.wasm ../rust_web/plugins/
-```
-
-# Install signature tool
-```rust
-cargo install wasmsign2-cli
+cp target/wasm32-unknown-unknown/release/plugin.wasm ../plugins/
 ```
 
 # Generate key
@@ -96,9 +119,9 @@ wasmsign2 keygen --public-key public.key --secret-key secret.key
 ## Signature plugin with private key
 ```rust
 wasmsign2 sign \
-  --input-file plugin.wasm \
-  --output-file plugin-signed.wasm \
-  --secret-key secret.key
+  --input-file ./plugins/plugin.wasm \
+  --output-file ./plugins/plugin-signed.wasm \
+  --secret-key ./keys/secret.key
 ```
 
 
