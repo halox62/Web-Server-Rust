@@ -24,7 +24,7 @@ pub struct Plugin {
 
 impl Plugin {
 
-
+ 
     pub async fn run(&self, req: &Request<Body>) -> anyhow::Result<()> {
         let engine = Engine::default();
     
@@ -98,7 +98,6 @@ pub fn verify_with_trusted_keys(plugin_path: &str, trusted_keys_path: &str) -> R
 
     for (i, key_entry) in keys.iter().enumerate() {
         let key_path = key_entry.as_str().ok_or(anyhow!("Invalid key path"))?;
-        println!("  [{}] Trying key: {}", i, key_path);
 
         if verify(plugin_path, key_path) {
             return Ok(());
@@ -124,7 +123,7 @@ pub fn load_plugins(engine: &Engine, config: &Config) -> anyhow::Result<HashMap<
         .flat_map(|r| r.plugins.iter().map(|p| p.name.clone()))
         .collect();
 
-    println!("🔍 Plugin richiesti nel config: {:?}", required_plugins);
+    println!("Plugin richiesti nel config: {:?}", required_plugins);
 
     for plugin_name in required_plugins {
         let plugin_path = dir.join(format!("{}.wasm", plugin_name));
@@ -134,7 +133,6 @@ pub fn load_plugins(engine: &Engine, config: &Config) -> anyhow::Result<HashMap<
             continue;
         }
 
-        println!("🔍 Verifying plugin: {:?}", plugin_path);
         if verify_with_trusted_keys(plugin_path.to_str().unwrap(), "./keys/trusted_keys.json").is_ok() {
             println!("Plugin verified and trusted: {:?}", plugin_path);
 

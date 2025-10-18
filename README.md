@@ -12,6 +12,12 @@
   </tr>
 </table>
 
+
+# System
+
+![system](./images/system.png)
+
+
 # Architecture
 
 ![schema](./images/schema1.png)
