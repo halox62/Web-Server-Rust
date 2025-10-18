@@ -71,15 +71,15 @@ cargo run
 
 
 # Create plugin
+```rust
+cargo new plugin --lib
+```
 
 # Install signature tool
 ```rust
 cargo install wasmsign2-cli
 ```
 
-```rust
-cargo new plugin --lib
-```
 
 ### Cargo.toml
 
